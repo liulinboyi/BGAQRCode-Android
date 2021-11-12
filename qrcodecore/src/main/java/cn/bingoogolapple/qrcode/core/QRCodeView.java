@@ -13,8 +13,11 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public abstract class QRCodeView extends RelativeLayout implements Camera.PreviewCallback {
     private static final int NO_CAMERA_ID = -1;
@@ -405,6 +408,11 @@ public abstract class QRCodeView extends RelativeLayout implements Camera.Previe
             try {
                 if (mDelegate != null) {
                     mDelegate.onScanQRCodeSuccess(result);
+                    Log.d("扫描结果：", result);
+                    Toast t = Toast.makeText(getContext().getApplicationContext(), "返回后当前页面的结果：" + result,
+                            Toast.LENGTH_SHORT);
+                    t.setGravity(Gravity.CENTER, 0, 0);
+                    t.show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -562,7 +570,7 @@ public abstract class QRCodeView extends RelativeLayout implements Camera.Previe
     }
 
     private PointF transform(float originX, float originY, float cameraPreviewWidth, float cameraPreviewHeight, boolean isMirrorPreview, int statusBarHeight,
-            final Rect scanBoxAreaRect) {
+                             final Rect scanBoxAreaRect) {
         int viewWidth = getWidth();
         int viewHeight = getHeight();
 

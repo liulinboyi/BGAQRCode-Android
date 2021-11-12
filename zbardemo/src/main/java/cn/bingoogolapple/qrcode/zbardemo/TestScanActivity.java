@@ -7,7 +7,9 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +65,16 @@ public class TestScanActivity extends AppCompatActivity implements QRCodeView.De
     public void onScanQRCodeSuccess(String result) {
         Log.i(TAG, "result:" + result);
         setTitle("扫描结果为：" + result);
-        vibrate();
 
-        mZBarView.startSpot(); // 开始识别
+        Toast t = Toast.makeText(getApplicationContext(), "扫描页获取的结果：" + result,
+                Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.CENTER, 0, 0);
+        t.show();
+
+        vibrate(); // 震动
+        TestScanActivity.this.finish(); // 扫描成功返回上一页
+
+        //        mZBarView.startSpot(); // 开始识别
     }
 
     @Override
